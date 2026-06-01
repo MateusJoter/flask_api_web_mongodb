@@ -1,0 +1,12 @@
+1. Qual é a principal filosofia do Pyramid? Onde ele se encaixa no espectro entre Flask e Django?
+  A filosofia é "start small, finish big, stay finished", ou em português, "comece pequeno, termine grande, fique bem". 
+  Ele está entre o minimalismo do Flask e a forte engine do Django. 
+  
+2. Quais são alguns de seus pontos fortes ou características marcantes?
+  Sua aplicação tende a aser bastante escalonável, com configurações explícitas em detrimento de "magia" implícita e bem modular.
+  
+3. Em que tipo de projeto o Pyramid seria considerado uma boa escolha?
+  Pela sua flexibilidade, ele tem uma gama de possibilidades bastante grande, de projetos simples ao mais complexos.
+  Contudo, destaca-se que, na ocasião de projetos cujo controle das operações é crucial, o Pyramid apresenta-se como uma alternativa de destaque,
+  uma vez que a presença das configurações mais explícitas dão ao desenvolvedor capacidade de tomar as decisões importantes do proejeto,
+  do micro ao macro.
