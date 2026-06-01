@@ -1,0 +1,21 @@
+CENÁRIO:
+Imagine que você recebeu uma nova demanda de projeto com os seguintes requisitos:
+
+"Precisamos construir o sistema de back-end para um grande portal de notícias. 
+ O sistema precisa ter um painel administrativo extremamente robusto e fácil de usar para que jornalistas (que não são pessoas técnicas) 
+ possam cadastrar, editar e publicar notícias. A velocidade de desenvolvimento dessas funcionalidades de gerenciamento é a prioridade máxima."
+
+Considerando os critérios que aprendemos (Flexibilidade, Curva de Aprendizagem, Foco da Ferramenta) e as filosofias do Flask, Django e FastAPI, qual framework você escolheria para este novo projeto específico?
+
+PROPOSIÇÃO:
+As palavras-chave para a aplicação demandada são "painel [...] ROBUSTO e FÁCIL DE USAR [...]. A VELOCIDADE DE DESENVOLVIMENTO [...] é a prioridade máxima.
+Com base na robustez exigida, descarta-se o Flask pois, apesar de seu desenvolvimento rápido para funções mais simples e boa conexão entre API e web,
+quando trata-se de uma aplicação de maior escopo, o framework perde pontos em relação aos demais. Descarta-se também o FastAPI na decisão, uma vez que seu
+foco está na produção de APIs, mas, uma vez exigida a flexibilidade em termos de integração com a aplicação web, o framework peca.
+
+Portanto, o candidato que melhor atende aos critérios exigidos (Flexibilidade, Curva de Aprendizagem e Foco da Ferramenta) é Django. Não questiona-se a
+capacidade do framework de atender a necessidade da ferramenta em termos de robustez, tampouco de sua flexibilidade quando testada na intergação entre 
+API e aplicação. O ponto que poderia ser considerado é a curva de aprendizagem, uma vez que o Django oferece suas próprias estruturas e, então, têm-se
+um cenário relativamente mais rígido em termos de sua arquitetura. Contudo, considere-se também que as estruturas disponibilizadas pela opção facilitam
+e agilizam o trabalho de desenvolvimento, uma vez que o trabalho será definido em dispor os objetivos e operar o desenvolvimento sobre o arcabouço
+prévio da ferramenta.
