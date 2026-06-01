@@ -1,0 +1,21 @@
+CONTEXTO E PREMISSAS:
+Esse é um proejto desenvolvido ao decorrer de um dos cursos da plataforma Alura, com ideal educacional e de desenvolvimento técnico/profissional.
+A ideia é desenvolver uma aplicação web prática, chamada Style Sync, cujo objetivo é que, em uma resposta rápida à demanda, entregue-se um produto profissional que faça login, cadastro de usuários, catálogo de produtos e painél de vendas.
+
+ESCOLHA DE FRAMEWORK:
+Considerando os requisitos de projeto, optou-se pelo framework Flask, que alinha boa intergação API-web, baixa curva de aprendizado e resultados imediatos.
+
+DESENVOLVIMENTO DA ARQUITETURA:
+Pasta app - contém todo o código fonte;
+  - Pasta routes - responsável por gerenciar as rotas da aplicação
+    - main.py -   responsável por organizar todo o grupo de rotas relacionais (Blueprint) e transforma todos os dicionários python em json (jsonify)
+                  rota principal: boas vindas da plicação, já vem no método padrão GET;
+                  rota products: catálogo de produtos da aplicação, já vem no método padrão GET;
+                  rota login: entrada de usuários, metódo definido na função como POST
+  - __init__.py - cria o app Flask e registra os blueprints do main;
+  
+Pasta testes - eventuais testes no decorrer do desenvolvimento;
+run.py -   responsável pela execução em si da aplicação; 
+           modo de execução: debug=True (recarrega o servidor automáticamente quando houver alterações e permite a detecção de erros)
+           
+           
