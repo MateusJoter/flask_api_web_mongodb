@@ -36,3 +36,59 @@ PYDANTIC:
   pip install pydantic
 - Impacto na arquitetura:
   Criação da pasta "models" dentro do diretório base com os padrões de dados a serem consumidos pelo sistema.
+
+NOVO REQUISITO DE PROJETO:
+A equipe da "StyleSync" adorou nosso progresso e já tem uma nova ideia: eles querem organizar os produtos em Categorias. 
+Isso ajudará os clientes a navegarem melhor pelo e-commerce no futuro.
+
+Tarefas:
+- Definir os requisitos de dados (o model Categoria);
+- Definir os requisitos funcionais (rotas).
+
+Requisitos de dados:
+- título: string. Define qual o título exibido qundo a categoria for requisitada;
+- id: int;
+- subcategorias: opcional e list. Exemplo: a categoria alimentos pode ser dividida em fitness, carnes, grãos...
+
+Requisitos funcionais:
+- Criar categoria (POST);
+- Exibir todas as categorias disponíveis por ordem alfabética (GET);
+- Exibir subcategorias de uma única e existente categoria pelo id dela (GET);
+- Editar categoria uma única e existente categoria pelo seu id (PUT).
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
