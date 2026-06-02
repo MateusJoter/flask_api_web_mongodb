@@ -6,3 +6,4 @@ class Products(BaseModel):
     price: float
     description: Optional[str] = None
     stock: int
+    sku: str # Stock Keeping Unit
