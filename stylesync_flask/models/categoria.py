@@ -1,7 +1,7 @@
 from pydantic import BaseModel
 from typing import Optional
 
-class Categoria(BaseModel):
+class Category(BaseModel):
     id: int
-    titulo: str
-    subcategorias: Optional[list] = []
+    title: str
+    subcategories: Optional[list] = []
