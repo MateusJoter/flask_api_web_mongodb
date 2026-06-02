@@ -17,5 +17,15 @@ Pasta app - contém todo o código fonte;
 Pasta testes - eventuais testes no decorrer do desenvolvimento;
 run.py -   responsável pela execução em si da aplicação; 
            modo de execução: debug=True (recarrega o servidor automáticamente quando houver alterações e permite a detecção de erros)
+
+REQUISITOS FUNCIONAIS:
+1. Autenticação do usuário para obter um token (POST);
+2. Listagem de todos os produtos (GET);
+3. Criação de um novo produto (POST);
+4. Visualização dos detalhes de um único e existente produto (GET);
+5. Atualização de um único e existente produto (PUT);
+6. Deleção de um único e existente produto (DELETE);
+7. Importação de vendas através de um arquivo (POST);
+
            
            
