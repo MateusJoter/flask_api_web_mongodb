@@ -49,9 +49,26 @@ def delete_product_by_id(product_id):
 def upload_sales():
     return jsonify({"message": "Rota de importação de vendas via arquivo."})
 
+# RF: O sistema deve criar uma categoria.
+@main_bp.route('/categories', methods='POST')
+def create_category():
+    return jsonify({"message": "Rota de criação de uma nova categoria."})
 
+# RF: O sistema deve exibir todas as categorias disponíveis em ordem alfabética.
+@main_bp.route('/categories', methods='GET')
+def get_categories():
+    # Ordenar categorias
+    return jsonify({"message": "Rota de exibição de todas as categorias."})
 
+# RF: O sistema deve exibir todas asubcategorias disponíveis ds e uma categoria.
+@main_bp.route('/categories/<int:category_id>', methods='GET')
+def get_subcategories_by_id(category_id):
+    return jsonify({"message": f"Rota de exibição de todas as subcategorias da categoria cujo id é {category_id}."})
 
+# RF: O sistema deve permitir a edição de uma única e existente categoria.
+@main_bp.route('/categories/<int:category_id>', methods='PUT')
+def update_category_by_id(category_id):
+    return jsonify({"message": f"Rota de edição da categoria cujo id é {category_id}."})
 
 
 
