@@ -4,6 +4,7 @@ A ideia é desenvolver uma aplicação web prática, chamada Style Sync, cujo ob
 
 ESCOLHA DE FRAMEWORK:
 Considerando os requisitos de projeto, optou-se pelo framework Flask, que alinha boa intergação API-web, baixa curva de aprendizado e resultados imediatos.
+Instalação: pip install Flask
 
 DESENVOLVIMENTO DA ARQUITETURA:
 Pasta app - contém todo o código fonte;
@@ -27,5 +28,11 @@ REQUISITOS FUNCIONAIS:
 6. Deleção de um único e existente produto (DELETE);
 7. Importação de vendas através de um arquivo (POST);
 
-           
-           
+PYDANTIC:
+- O que é?
+  É a biblioteca responsável por redigir o "contrato" que nós faremos com nossos dados. Com ela, se os dados não estiverem no padrão definido,
+  obteremos um erro.
+- Instalação: 
+  pip install pydantic
+- Impacto na arquitetura:
+  Criação da pasta "models" dentro do diretório base com os padrões de dados a serem consumidos pelo sistema.
