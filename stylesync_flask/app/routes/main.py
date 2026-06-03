@@ -3,6 +3,7 @@ from pydantic import ValidationError
 from app.models.user import LoginPayload
 from app import db
 from bson import ObjectId # Converte a informação em id do MongoDB
+from app.models.products import *
 
 main_bp = Blueprint('main_bp', __name__)
 
@@ -25,11 +26,7 @@ def login():
 @main_bp.route('/products', methods=['GET'])
 def get_products():
     products_cursor = db.products.find({})
-    products_list = []
-    
-    for products in products_cursor:
-        products['_id'] = str(products['_id'])
-        products_list.append(products)
+    products_list = [ProductDBModel(**product).model_dump(by_alias=True, exclude_none=True) for product in products_cursor]
         
     return jsonify(products_list)
     
@@ -49,8 +46,8 @@ def get_product_by_id(product_id):
     try:
         product = db.products.find_one({'_id':oid})
         if product:
-            product['_id'] = product_id
-            return jsonify(product)
+            product_model = ProductDBModel(**product).model_dump(by_alias=True, exclude_none=True)
+            return jsonify(product_model)
         else jsonify('error': f'Não foi possível encontrar produto com id {product_id}')
     except Exception as e:
         return jsonify('error': f'Erro ao buscar produto com id {product_id}: {e}')
