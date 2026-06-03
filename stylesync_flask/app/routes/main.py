@@ -11,10 +11,10 @@ def login():
         raw_data = request.get_json()
         user_data = LoginPayload(**raw_data) # O operador ** é o que desacopla o dicionário, transformando suas keys 
                                              # em argumentos que possam ser validados pelo Loginpayload
-        except ValidationError as e:
-            return jsonify({"erro": e.errors()}), 400
-        except Exception as e:
-            return jsonify({"erro": f"Erro durante aa requisição do dado: {e}"}), 500
+    except ValidationError as e:
+        return jsonify({"erro": e.errors()}), 400
+    except Exception as e:
+        return jsonify({"erro": f"Erro durante aa requisição do dado: {e}"}), 500
             
     return jsonify({"message": r"Realizar o login do usuário {user_data.model_dump_json()}."}) # model_dump_json() é a função responsável por transformar as
                                                                                                # informações da classe Loginpayload de volta para um json.

@@ -56,17 +56,20 @@ Requisitos funcionais:
 - Exibir subcategorias de uma única e existente categoria pelo id dela (GET);
 - Editar categoria uma única e existente categoria pelo seu id (PUT).
 
+MONGODB
+Agora, para genrenciar o banco de dados da aplicação, será utilizado o MongoDB.
+Suas vantagens são flexibilidade, escalabilidade e acesso rápido.
 
+Requisitos:
+- MongoDB
+- MongoDB Compass
 
+Instalação no python:
+- pip install pymongo python-dotenv (Requer que um arquivo .env seja criado na raiz da aplicação para conectar ao banco de dados)
 
-
-
-
-
-
-
-
-
+Impacto na arquitetura:
+- .env na raiz
+- config.py na pasta app, responsável pelas configurações do banco de dados
 
 
 
