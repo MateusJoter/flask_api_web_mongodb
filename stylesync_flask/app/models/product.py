@@ -2,7 +2,6 @@ from pydantic import BaseModel, Field, ConfigDict
 from typing import Optional # Nos dá a possibilidade de dizer se tal atributo é opcional
 from bson import ObjectId
 
-
 class Products(BaseModel):
     id: Optional[Objectid] = Field(None, alias='_id') # O alias serve para receber e enviar '_id', mas utilizar 'id' no tratamento interno
     name: str
@@ -22,3 +21,9 @@ class ProductDBModel(Products):
         if self.id:
             data['_id'] = str(data['_id'])
         return data
+
+class UpdateProducts(BaseModel):
+    name: Optional[str] = None
+    price: Optional[float] = None
+    description: Optional[str] = None
+    stock: Optional[int] = None
