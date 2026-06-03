@@ -4,6 +4,9 @@ from app.models.user import LoginPayload
 from app import db
 from bson import ObjectId # Converte a informação em id do MongoDB
 from app.models.products import *
+from app.decorators import token_required
+from datetime import datetime, timedelta, timezone
+import jwt
 
 main_bp = Blueprint('main_bp', __name__)
 
@@ -13,14 +16,25 @@ def login():
     try:
         raw_data = request.get_json()
         user_data = LoginPayload(**raw_data) # O operador ** é o que desacopla o dicionário, transformando suas keys 
-                                             # em argumentos que possam ser validados pelo Loginpayload
+                                             # em argumentos que possam ser validados pelo LoginPayload
     except ValidationError as e:
-        return jsonify({"erro": e.errors()}), 400
+        return jsonify({"errors": e.errors()}), 400
     except Exception as e:
-        return jsonify({"erro": f"Erro durante aa requisição do dado: {e}"}), 500
-            
-    return jsonify({"message": f"Realizar o login do usuário {user_data.model_dump_json()}."}) # model_dump_json() é a função responsável por transformar as
-                                                                                               # informações da classe Loginpayload de volta para um json.
+        return jsonify({"errors": f"Erro durante a requisição do dado: {e}"}), 500
+
+    if user_data.username == 'admin' and user_data.password == 'supersecret':
+        token = jwt.encode(
+            {
+                'user_id': user_data.username,
+                'exp': datetime.now(timezone.utc) + timedelta(minutes=30)
+            },
+            current_app.config('SECRET_KEY'),
+            algorithm='HS256'
+        )
+
+        return jsonify({'access_token': token}), 200
+        
+    return jsonify({"error": "Credenciais inválidas."}), 401
 
 # RF: O sistema deve listar todos os produtos.
 @main_bp.route('/products', methods=['GET'])
