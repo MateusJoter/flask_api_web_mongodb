@@ -39,17 +39,29 @@ def create_product():
     return jsonify({"message": "Rota de criação de um novo produto."})
     
 # RF: O sistema deve permitir a visualização dos detalhes de um único e existente produto.
-@main_bp.route('/products/<int:product_id>', methods='GET')
+@main_bp.route('/product/<string:product_id>', methods='GET')
 def get_product_by_id(product_id):
-    return jsonify({"message": f"Rota de visualização do produto cujo id é {product_id}."})
+    try:
+        oid = ObjectId(product_id)
+    except Exception as e:
+        return jsonify('error': f'Erro ao tentar transformar {product_id} em id do Banco de Dados')
+    
+    try:
+        product = db.products.find_one({'_id':oid})
+        if product:
+            product['_id'] = product_id
+            return jsonify(product)
+        else jsonify('error': f'Não foi possível encontrar produto com id {product_id}')
+    except Exception as e:
+        return jsonify('error': f'Erro ao buscar produto com id {product_id}: {e}')
 
 # RF: O sistema deve permitir a atualização de um único e existente produto.
-@main_bp.route('/products/<int:product_id>', methods='PUT')
+@main_bp.route('/product/<int:product_id>', methods='PUT')
 def update_product_by_id(product_id):
     return jsonify({"message": f"Rota de atualização do produto cujo id é {product_id}."})
 
 # RF: O sistema deve permitir a deleção de um único e existente produto.
-@main_bp.route('/products/<int:product_id>', methods='DELETE')
+@main_bp.route('/product/<int:product_id>', methods='DELETE')
 def delete_product_by_id(product_id):
     return jsonify({"message": f"Rota de deleção do produto cujo id é {product_id}."})
     
