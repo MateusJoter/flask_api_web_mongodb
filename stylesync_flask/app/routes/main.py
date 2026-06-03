@@ -1,6 +1,8 @@
 from flask import Blueprint, jsonify, request
 from pydantic import ValidationError
 from app.models.user import LoginPayload
+from app import db
+from bson import ObjectId # Converte a informação em id do MongoDB
 
 main_bp = Blueprint('main_bp', __name__)
 
@@ -22,11 +24,18 @@ def login():
 # RF: O sistema deve listar todos os produtos.
 @main_bp.route('/products', methods=['GET'])
 def get_products():
-    return jsonify({"message": "Rota de listagem de todos os produtos."})
+    products_cursor = db.products.find({})
+    products_list = []
+    
+    for products in products_cursor:
+        products['_id'] = str(products['_id'])
+        products_list.append(products)
+        
+    return jsonify(products_list)
     
 # RF: O sistema deve criar um novo produto.
 @main_bp.route('/products', methods='POST')
-def new_product():
+def create_product():
     return jsonify({"message": "Rota de criação de um novo produto."})
     
 # RF: O sistema deve permitir a visualização dos detalhes de um único e existente produto.
