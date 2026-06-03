@@ -107,7 +107,7 @@ def delete_product_by_id(token, product_id):
     delete_product = db.products.delete_one({"_id": oid})
 
     if delete_product.deleted_count == 0:
-        eturn jsonify({"error": "Produto não encontrado."}), 404
+        return jsonify({"error": "Produto não encontrado."}), 404
     return "", 204
     
 # RF: O sistema deve permitir a importação de vendas através de um arquivo.
@@ -136,7 +136,44 @@ def get_subcategories_by_id(category_id):
 def update_category_by_id(category_id):
     return jsonify({"message": f"Rota de edição da categoria cujo id é {category_id}."})
 
+# RF: O sistema deve poder retornar uma lista de todos os usuários cadastrados sem suas senhas.
+@main_bp.route('/usuarios', methods='GET')
+@token_required
+def get_users(token):
+    users_cursor = db.users.find({})
+    users_list = [UserDBModel(**user).model_dump(by_alias=True, exclude_none=True)['username'] for user in users_cursor]
+    
+    return jsonify(user_list), 200
 
+# RF: O sistema deve permitir a criação de um novo usuário.
+@main_bp.route('/usuarios', methods='POST')
+@token_required
+def create_user(token):
+    try:
+        raw_data = request.get_json()
+        user_data = User(**raw_data)
+    except ValidationError:
+        return jsonify("error": "Dados malformatados")
+
+    result = db.users.insert_one(user_data.model_dump())
+    return jsonify({"message": "Usuário criado.",
+                   "id": str(result.inserted_id)}), 201
+
+# RF: O sistema deve permitir a deleção de um usuário pelo seu id.
+@main_bp.route('/usuario/<string:user_id>', methods='DELETE')
+@token_required
+def delete_user(token, user_id):
+    try:
+        oid = Objectid(user_id)
+    except Exception:
+        return jsonify("error": "Não foi possível receber o id do usuário a ser deletado"), 400
+
+    deleted_user = db.users.delete_one({'_id': oid})
+
+    if deleted_user.deleted_count == 0:
+        return jsonify("error": "Usuário não encontrado"), 404
+
+    return "", 204
 
 
 
