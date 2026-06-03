@@ -86,8 +86,8 @@ Instalação:
 Impacto na arquitetura:
 - decorators.py em app
 
-
-
+IMPLEMENTANDO CRUD DE USUÁRIOS
+Até então, o login acontecia de forma hardcoded. Agora, será implementado tanto as rotas de usuários como seu modelo.
 
 
 
