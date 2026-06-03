@@ -16,7 +16,7 @@ def login():
     except Exception as e:
         return jsonify({"erro": f"Erro durante aa requisição do dado: {e}"}), 500
             
-    return jsonify({"message": r"Realizar o login do usuário {user_data.model_dump_json()}."}) # model_dump_json() é a função responsável por transformar as
+    return jsonify({"message": f"Realizar o login do usuário {user_data.model_dump_json()}."}) # model_dump_json() é a função responsável por transformar as
                                                                                                # informações da classe Loginpayload de volta para um json.
 
 # RF: O sistema deve listar todos os produtos.
