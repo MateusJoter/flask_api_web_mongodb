@@ -11,7 +11,7 @@ class LoginPayload(BaseModel):
     password: str
     
 class User(LoginPayload):
-    id: Optional[Objectid] = Field(None, alias='_id') # O alias serve para receber e enviar '_id', mas utilizar 'id' no tratamento interno
+    id: Optional[ObjectId] = Field(None, alias='_id') # O alias serve para receber e enviar '_id', mas utilizar 'id' no tratamento interno
 
     model_config = ConfigDict(
         populate_by_name=True,
