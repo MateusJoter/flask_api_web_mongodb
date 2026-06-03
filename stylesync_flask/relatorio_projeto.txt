@@ -12,7 +12,7 @@ Pasta app - contém todo o código fonte;
     - main.py -   responsável por organizar todo o grupo de rotas relacionais (Blueprint) e transforma todos os dicionários python em json (jsonify)
                   rota principal: boas vindas da plicação, já vem no método padrão GET;
                   rota products: catálogo de produtos da aplicação, já vem no método padrão GET;
-                  rota login: entrada de usuários, metódo definido na função como POST
+                  rota login: entrada de usuários, método definido na função como POST
   - __init__.py - cria o app Flask e registra os blueprints do main;
   
 Pasta testes - eventuais testes no decorrer do desenvolvimento;
@@ -71,16 +71,20 @@ Impacto na arquitetura:
 - .env na raiz
 - config.py na pasta app, responsável pelas configurações do banco de dados
 
+AUTENTICAÇÃO JWT
+A partir de agora, será utilizado o padrão JWT para transferência segura de informações.
 
+Vantagens:
+- Transferência segura;
+- Token codificado em JSON;
+- Autenticação de usuário;
+- Transmissão de informações.
 
+Instalação:
+- pip install PyJWT
 
-
-
-
-
-
-
-
+Impacto na arquitetura:
+- decorators.py em app
 
 
 
