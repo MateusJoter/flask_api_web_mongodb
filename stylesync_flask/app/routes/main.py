@@ -3,10 +3,14 @@ from pydantic import ValidationError
 from app.models.user import LoginPayload
 from app import db
 from bson import ObjectId # Converte a informação em id do MongoDB
-from app.models.products import *
+from app.models.product import *
+from app.models.sale import Sale
 from app.decorators import token_required
 from datetime import datetime, timedelta, timezone
 import jwt
+import csv
+import os
+import io
 
 main_bp = Blueprint('main_bp', __name__)
 
@@ -112,8 +116,44 @@ def delete_product_by_id(token, product_id):
     
 # RF: O sistema deve permitir a importação de vendas através de um arquivo.
 @main_bp.route('/sales', methods='POST')
-def upload_sales():
-    return jsonify({"message": "Rota de importação de vendas via arquivo."})
+@token_required
+def upload_sales(token):
+    if not 'file' in request.files:
+        return jsonify({"error": "Não há arquivos de entrada."}), 400
+
+    file = request.files['file']
+
+    if file.filename == '':
+        return jsonify({"error": "Não há arquivos selecionados."}), 400
+
+    if file.filename.endswith('.csv'):
+        csv_stream = io.StringIO(file.stream.read().decode('UTF-8'), newline=None)
+        csv_reader = csv.DictReader(csv_stream)
+
+        sales_to_insert = []
+        errors = []
+
+        for row_num, row in enumarate(csv_reader, 1):
+            try:
+                sale_data = Sale(**row)
+
+                sales_to_insert.append(sale_data.model_dump())
+            except ValidationError as e:
+                errors.append(f'Linha {row_num} com dados inválidos - {e}.')
+            except Exception:
+                errors.append(f'Linha {row_num} com erro inesperado.')
+
+            if sales_to_insert:
+                try:
+                    db.sales.insert_many(sales_to_insert)
+                except Exception as e:
+                    return jsonify({'error': f'{e}'})
+            return jsonify({
+                'message': 'Upload realizado com sucesso',
+                'vendas importadas': len(sales_to_insert),
+                'erros encontrados': errors
+            }), 200
+
 
 # RF: O sistema deve criar uma categoria.
 @main_bp.route('/categories', methods='POST')
