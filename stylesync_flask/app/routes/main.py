@@ -1,9 +1,9 @@
-from flask import Blueprint, jsonify, request
+from flask import Blueprint, jsonify, request, current_app  
 from pydantic import ValidationError
-from app.models.user import LoginPayload
+from app.models.user import LoginPayload, User, UserDBModel
 from app import db
 from bson import ObjectId # Converte a informação em id do MongoDB
-from app.models.product import *
+from app.models.product import Product, ProductDBModel, UpdateProduct
 from app.models.sale import Sale
 from app.decorators import token_required
 from datetime import datetime, timedelta, timezone
@@ -67,16 +67,17 @@ def get_product_by_id(product_id):
     try:
         oid = ObjectId(product_id)
     except Exception as e:
-        return jsonify('error': f'Erro ao tentar transformar {product_id} em id do Banco de Dados')
-    
+        return jsonify({'error': f'Erro ao tentar transformar {product_id} em id do Banco de Dados'}), 400
+
     try:
         product = db.products.find_one({'_id':oid})
         if product:
             product_model = ProductDBModel(**product).model_dump(by_alias=True, exclude_none=True)
             return jsonify(product_model)
-        else jsonify('error': f'Não foi possível encontrar produto com id {product_id}')
+        else:
+            return jsonify({'error': f'Não foi possível encontrar produto com id {product_id}'})
     except Exception as e:
-        return jsonify('error': f'Erro ao buscar produto com id {product_id}: {e}')
+        return jsonify({'error': f'Erro ao buscar produto com id {product_id}: {e}'})
 
 # RF: O sistema deve permitir a atualização de um único e existente produto.
 @main_bp.route('/product/<string:product_id>', methods='PUT')
@@ -133,7 +134,7 @@ def upload_sales(token):
         sales_to_insert = []
         errors = []
 
-        for row_num, row in enumarate(csv_reader, 1):
+        for row_num, row in enumerate(csv_reader, 1):
             try:
                 sale_data = Sale(**row)
 
@@ -183,7 +184,7 @@ def get_users(token):
     users_cursor = db.users.find({})
     users_list = [UserDBModel(**user).model_dump(by_alias=True, exclude_none=True)['username'] for user in users_cursor]
     
-    return jsonify(user_list), 200
+    return jsonify(users_list), 200
 
 # RF: O sistema deve permitir a criação de um novo usuário.
 @main_bp.route('/usuarios', methods='POST')
@@ -193,7 +194,7 @@ def create_user(token):
         raw_data = request.get_json()
         user_data = User(**raw_data)
     except ValidationError:
-        return jsonify("error": "Dados malformatados")
+        return jsonify({"error": "Dados malformatados"}), 400
 
     result = db.users.insert_one(user_data.model_dump())
     return jsonify({"message": "Usuário criado.",
@@ -204,14 +205,14 @@ def create_user(token):
 @token_required
 def delete_user(token, user_id):
     try:
-        oid = Objectid(user_id)
+        oid = ObjectId(user_id)
     except Exception:
-        return jsonify("error": "Não foi possível receber o id do usuário a ser deletado"), 400
+        return jsonify({"error": "Não foi possível receber o id do usuário a ser deletado"}), 400
 
     deleted_user = db.users.delete_one({'_id': oid})
 
     if deleted_user.deleted_count == 0:
-        return jsonify("error": "Usuário não encontrado"), 404
+        return jsonify({"error": "Usuário não encontrado"}), 404
 
     return "", 204
 
